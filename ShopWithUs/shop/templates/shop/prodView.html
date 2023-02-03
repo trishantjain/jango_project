@@ -1,0 +1,57 @@
+{% extends 'shop/basic.html' %}
+
+{% block title %} {{product.product_name}} | Product View {% endblock %}
+
+{% block body %}
+
+<div class="container my-4">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="row">
+                <img src="/media/{{product.image}}" width="333px" height="399px" alt="Image Not Found">
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <h3>{{product.product_name}}</h3>
+            <P><b>Rs. {{product.price}}</b></P>
+            <p>{{product.description}}</p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+
+{% block js %}
+<script>
+
+
+    if (localStorage.getItem('cart') == null) {
+        var cart = {};
+    }
+
+    else {
+        // Getting data from the cart
+        cart = JSON.parse(localStorage.getItem('cart'));
+        document.getElementById('cart-pr').innerHTML = Object.keys(cart).length;
+    }
+
+    $('.cart').click(function () {
+        var pr_id = this.id.toString();
+        // If Item already exists in cart
+        if (cart[pr_id] != undefined) {
+            cart[pr_id] = cart[pr_id] + 1;
+        }
+
+        // If Item not exists in cart
+        else {
+            cart[pr_id] = 1;
+        }
+        // Storing data to local Storage
+        localStorage.setItem('cart', JSON.stringify(cart));
+    });
+
+</script>
+
+{% endblock %}

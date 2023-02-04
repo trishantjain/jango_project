@@ -161,20 +161,17 @@
         cart = JSON.parse(localStorage.getItem('cart'));
         document.getElementById('cart-pr').innerHTML = Object.keys(cart).length
         updateCart(cart);
-        updatePopcart(cart);
     }
 
     // If the add to cart button is clicked, add/increment the item
     $('.divpr').on("click", "button.cart", function () {
         var pr_id = this.id.toString()
-        if (cart[pr_id] != undefined) 
-        {
+        if (cart[pr_id] != undefined) {
             qty = cart[pr_id][0] + 1;
-        } 
-        else 
-        {
-            qty = 1;   
-            pr_name = document.getElementById("name"+pr_id).innerHTML;
+        }
+        else {
+            qty = 1;
+            pr_name = document.getElementById("name" + pr_id).innerHTML;
             cart[pr_id] = [qty, pr_name];
         }
         localStorage.setItem('cart', JSON.stringify(cart));
@@ -197,17 +194,17 @@
 
         popStr = popStr + "</div> <a href='/shop/checkout'><button type='button' class='btn btn-success' id='checkout'>Check out </button> </a> <button type='button' class='btn btn-success' id='clearCart' onClick='clearCart()'>Clear Cart </button>";
         document.getElementById("popcart").setAttribute('data-content', popStr);
-        $('#popcart').popover();
+        $('#popcart').popover('show');
 
     }
 
     function updateCart(cart) {
-        if (cart != undefined) {
             for (var item in cart) {
                 document.getElementById('div' + item).innerHTML = "<button type='button' id='minus" + item + "' class='btn btn-success minus'>-</button> <span id='val" + item + "'>" + cart[item][0] + "</span> <button type='button' id='plus" + item + "' class='btn btn-success plus'> + </button>";
             }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updatePopcart(cart);
         }
-    }
 
 
     function clearCart(cart) {

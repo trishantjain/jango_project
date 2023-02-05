@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import Product, Contact
+from .models import Product, Contact, Order
 from math import ceil
 
 
@@ -55,4 +55,24 @@ def product(request, myid):
 
 
 def checkout(request):
+    if request.method == "POST":
+        item_json = request.POST.get("itemJson", "")
+        name = request.POST.get("name", "")
+        email = request.POST.get("email", "")
+        phone = request.POST.get("phone", "")
+        address = request.POST.get("address1", "") + request.POST.get("address2", "")
+        state = request.POST.get("state", "")
+        city = request.POST.get("city", "")
+        zip_code = request.POST.get("zip_code", "")
+
+        order = Order(item_json=item_json, name=name, email=email, phone=phone, address=address, state=state, city=city, zip_code= zip_code)
+        order.save()
+
+        thank = True
+        id = order.order_id
+
+        return render(request, "shop/checkout.html", {'thank':thank, 'id': id})
     return render(request, "shop/checkout.html")
+        
+
+

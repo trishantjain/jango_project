@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import Product, Contact, Order
+from .models import Product, Contact, Order, OrderUpdate
 from math import ceil
 
 
@@ -27,7 +27,6 @@ def about(request):
 
 
 def contact(request):
-
     if request.method == "POST":
         name = request.POST.get("name", "")
         email = request.POST.get("email", "")

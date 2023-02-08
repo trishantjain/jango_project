@@ -64,6 +64,7 @@
 
                 data = JSON.parse(data);
 
+                // Fetching OrderUpdates details from coming response
                 updates = data[0];
 
                 if (updates.length > 0 & updates != {}) {
@@ -86,6 +87,7 @@
                     $("#items").append(myStr);
                 }
 
+                // parsing data to json as it is coming as string
                 cart = JSON.parse(data[1]);
                 for (var item in cart) {
                     let name = cart[item][1];
@@ -99,6 +101,8 @@
                 }
 
             });
+
+        // Prevent to reload page while submitting form.
         event.preventDefault();
 
 

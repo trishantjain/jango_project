@@ -47,10 +47,12 @@ def tracker(request):
         try:
             order = Order.objects.filter(order_id=order_id, email=email)
             if len(order) > 0:
+                # Matching Given order_id to order_id in model
                 update = OrderUpdate.objects.filter(order_id=order_id)
                 updates = []
                 for item in update:
                     updates.append({"text": item.update_desc, "time": item.timestamp})
+                    # Getting update details from 'OrderUPdate; model and Order Details from 'Order' model
                     response = json.dumps([updates, order[0].item_json], default=str)
                 return HttpResponse(response)
 
@@ -80,8 +82,7 @@ def checkout(request):
         name = request.POST.get("name", "")
         email = request.POST.get("email", "")
         phone = request.POST.get("phone", "")
-        address = request.POST.get("address1", "") + \
-            request.POST.get("address2", "")
+        address = request.POST.get("address1", "") + request.POST.get("address2", "")
         state = request.POST.get("state", "")
         city = request.POST.get("city", "")
         zip_code = request.POST.get("zip_code", "")

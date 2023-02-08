@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Product, Contact, Order, OrderUpdate
 from math import ceil
+import json
 
 
 def index(request):
@@ -39,6 +40,26 @@ def contact(request):
 
 
 def tracker(request):
+    if request.method == "POST":
+        order_id = request.POST.get("order_id", "")
+        email = request.POST.get("email", "")
+
+        try:
+            order = Order.objects.filter(order_id=order_id, email=email)
+            if len(order) > 0:
+                update = OrderUpdate.objects.filter(order_id=order_id)
+                updates = []
+                for item in update:
+                    updates.append({"text": item.update_desc, "time": item.timestamp})
+                    response = json.dumps(updates, default=str)
+                return HttpResponse(response)
+
+            else:
+                return HttpResponse('{}')
+
+        except Exception as e:
+            return HttpResponse('{}')
+
     return render(request, "shop/tracker.html")
 
 
@@ -59,19 +80,20 @@ def checkout(request):
         name = request.POST.get("name", "")
         email = request.POST.get("email", "")
         phone = request.POST.get("phone", "")
-        address = request.POST.get("address1", "") + request.POST.get("address2", "")
+        address = request.POST.get("address1", "") + \
+            request.POST.get("address2", "")
         state = request.POST.get("state", "")
         city = request.POST.get("city", "")
         zip_code = request.POST.get("zip_code", "")
 
-        order = Order(item_json=item_json, name=name, email=email, phone=phone, address=address, state=state, city=city, zip_code= zip_code)
+        order = Order(item_json=item_json, name=name, email=email, phone=phone,
+                      address=address, state=state, city=city, zip_code=zip_code)
         order.save()
+        update = OrderUpdate(order_id=order.order_id,
+                             update_desc="The Order has been placed.")
 
         thank = True
         id = order.order_id
 
-        return render(request, "shop/checkout.html", {'thank':thank, 'id': id})
+        return render(request, "shop/checkout.html", {'thank': thank, 'id': id})
     return render(request, "shop/checkout.html")
-        
-
-

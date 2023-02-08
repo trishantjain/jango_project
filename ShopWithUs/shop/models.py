@@ -43,7 +43,7 @@ class Order(models.Model):
 
 class OrderUpdate(models.Model):
     update_id = models.AutoField(primary_key=True)
-    order_id = models.IntegerField(max_length=100, default='')
+    order_id = models.IntegerField(default='')
     update_desc = models.CharField(max_length=5000, default='')
     timestamp = models.DateField(auto_now_add=True)
 

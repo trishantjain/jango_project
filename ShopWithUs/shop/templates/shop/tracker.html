@@ -87,7 +87,7 @@
                     $("#items").append(myStr);
                 }
 
-                // parsing data to json as it is coming as string
+                //Fetching Order Details from coming response & parsing data to json as it is coming as string
                 cart = JSON.parse(data[1]);
                 for (var item in cart) {
                     let name = cart[item][1];

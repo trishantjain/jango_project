@@ -110,9 +110,9 @@
                         </div>
                         <div class="card-body">
                             <h5 class="card-title" id="namepr{{i.id}}">{{i.product_name}}</h5>
-                            <!-- <p class="card-text">{{i.description|length}}</p> -->
                             <p class="card-text">
                                 {{ i.description|slice:":35" }} {% if i.description|length > 35%}...{%endif%}</p>
+                            <h6 class="card-title">Price : <span id="pricepr{{i.id}}">{{i.price}}</span></h6>
                             <span id="divpr{{i.id}}" class="divpr">
                                 <button type="button" id="pr{{i.id}}" class="btn btn-success cart mx-0">Add to
                                     Cart</button>
@@ -172,7 +172,8 @@
         else {
             qty = 1;
             pr_name = document.getElementById("name" + pr_id).innerHTML;
-            cart[pr_id] = [qty, pr_name];
+            price = document.getElementById("price" + pr_id).innerHTML;
+            cart[pr_id] = [qty, pr_name, parseInt(price)];
         }
         localStorage.setItem('cart', JSON.stringify(cart));
         updateCart(cart);
@@ -199,12 +200,12 @@
     }
 
     function updateCart(cart) {
-            for (var item in cart) {
-                document.getElementById('div' + item).innerHTML = "<button type='button' id='minus" + item + "' class='btn btn-success minus'>-</button> <span id='val" + item + "'>" + cart[item][0] + "</span> <button type='button' id='plus" + item + "' class='btn btn-success plus'> + </button>";
-            }
-            localStorage.setItem('cart', JSON.stringify(cart));
-            updatePopcart(cart);
+        for (var item in cart) {
+            document.getElementById('div' + item).innerHTML = "<button type='button' id='minus" + item + "' class='btn btn-success minus'>-</button> <span id='val" + item + "'>" + cart[item][0] + "</span> <button type='button' id='plus" + item + "' class='btn btn-success plus'> + </button>";
         }
+        localStorage.setItem('cart', JSON.stringify(cart));
+        updatePopcart(cart);
+    }
 
 
     function clearCart(cart) {

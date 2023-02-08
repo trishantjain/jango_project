@@ -9,8 +9,14 @@
         <h2>Step 1: Review Your Cart</h2>
         <div>
             <ul class="list-group" id="items">
-
             </ul>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mt-3">
+                    <li class="breadcrumb-item active" aria-current="page">Your Cart Total Is <b>Rs.<span
+                                id="totalPrice"></b> </span>Enter your details below & place your order. Thanks for
+                        using My Awesome Cart!</li>
+                </ol>
+            </nav>
         </div>
     </div>
 
@@ -21,8 +27,8 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="inputName">Name<span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="inputName" name="name"
-                        placeholder="Enter Your Name" required>
+                    <input type="text" class="form-control" id="inputName" name="name" placeholder="Enter Your Name"
+                        required>
                 </div>
                 <div class="form-group col-md-6">
                     <label for="inputEmail">Email<span class="text-danger">*</span></label>
@@ -48,8 +54,7 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="inputState">State<span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" name="state" id="inputState"
-                        placeholder="State" required>
+                    <input type="text" class="form-control" name="state" id="inputState" placeholder="State" required>
                 </div>
                 <div class="form-group col-md-4">
                     <label for="inputCity">City<span class="text-danger">*</span></label>
@@ -57,8 +62,8 @@
                 </div>
                 <div class="form-group col-md-2">
                     <label for="inputZip">Zip<span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" name="zip_code" id="inputZip"
-                        placeholder="Zip Code", required>
+                    <input type="text" class="form-control" name="zip_code" id="inputZip" placeholder="Zip Code" ,
+                        required>
                 </div>
             </div>
             <button type="submit" class="btn btn-success">Submit</button>
@@ -88,15 +93,26 @@
 
 
     var sum = 0;
-    for (var item in cart) {
-        let name = cart[item][1];
-        let qty = cart[item][0];
+    var totalPrice = 0;
+    if ($.isEmptyObject(cart)) {
+        myStr = `<p>Your cart is empty, please add some items to your cart before checking out!</p>`
+        $('#items').append(mystr);
+    }
+    else {
+        for (var item in cart) {
+            let name = cart[item][1];
+            let qty = cart[item][0];
+            let itemPrice = cart[item][2];
 
-        myStr = `<li class="list-group-item d-flex justify-content-between align-items-center">
+            totalPrice = totalPrice + (qty*itemPrice)
+
+            myStr = `<li class="list-group-item d-flex justify-content-between align-items-center">
                 ${name}
                 <span class="badge badge-primary badge-pill">${qty}</span>
-            </li>`;
-        $("#items").append(myStr);
+                </li>`;
+            $("#items").append(myStr);
+        }
+        $("#totalPrice").append(totalPrice)
     }
 
 
@@ -105,7 +121,7 @@
     {% if thank %}
     alert("Thanks for ordering. Your order id is {{id}}. You can track your order using your order id.")
     localStorage.clear();
-    document.location="/shop";
+    document.location = "/shop";
     // Code here will be linted with JSHint
     {% endif %}
 

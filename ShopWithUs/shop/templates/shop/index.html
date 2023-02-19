@@ -5,7 +5,6 @@
 {% block css %}
 <style>
     body {
-        /* background-image: radial-gradient(circle at 50% 50%, #13a270, #2dbd53 70%); */
         background-color: black;
     }
 
@@ -195,7 +194,7 @@
 
         popStr = popStr + "</div> <a href='/shop/checkout'><button type='button' class='btn btn-success' id='checkout'>Check out </button> </a> <button type='button' class='btn btn-success' id='clearCart' onClick='clearCart()'>Clear Cart </button>";
         document.getElementById("popcart").setAttribute('data-content', popStr);
-        $('#popcart').popover('show');
+        $('#popcart').popover();
 
     }
 

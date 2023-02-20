@@ -33,9 +33,8 @@
                     <strong class="d-inline-block mb-2 text-primary">World</strong>
                     <h3 class="mb-0">{{item.title}}</h3>
                     <div class="mb-1 text-muted">{{item.pub_date}}</div>
-                    <p class="card-text mb-auto">{{ item.chead0|slice:":35" }} {% if item.chead0|length >
-                        35%}...{%endif%}</p>
-                    <a href="#" class="stretched-link">Continue reading</a>
+                    <p class="card-text mb-auto">{{ item.chead0|slice:":35" }} {% if item.chead0|length > 35%}...{%endif%}</p>
+                    <a href="blogcont/{{item.post_id}}" class="stretched-link">Continue reading</a>
                 </div>
                 <div class="col-auto d-none d-lg-block">
                     <img src='/media/{{item.thumbnail}}' class="bd-placeholder-img" width="200" height="250"

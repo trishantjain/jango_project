@@ -1,0 +1,82 @@
+{% extends 'blog/basic.html' %}
+
+{% block title %} Blogs {% endblock %}
+
+{% block css %}
+
+<style>
+    .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+            font-size: 3.5rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+
+<main role="main" class="container my-4">
+    <div class="row">
+        <div class="col-md-8 blog-main">
+
+            <div class="blog-post">
+                <h1 class="blog-post-title"><u>{{post.title}}</u></h1>
+                <h4 class="blog-post-title my-4">{{post.head0}}</h4>
+                <p class="blog-post-meta mt-4 text-justify">{{post.chead0}}</p>
+            </div>
+
+            <div class="blog-post">
+                <h2 class="blog-post-title my-3">{{post.head1}}</h2>
+                <p class="blog-post-meta text-justify">{{post.chead1}}</p>
+            </div>
+
+            <div class="blog-post">
+                <h2 class="blog-post-title my-3">{{post.head2}}</h2>
+                <p class="blog-post-meta text-justify">{{post.chead2}}</p>
+            </div>
+
+            <nav class="blog-pagination my-3">
+                <a class="btn btn-outline-primary" href="#">Older</a>
+                <a class="btn btn-outline-secondary disabled">Newer</a>
+            </nav>
+
+        </div><!-- /.blog-main -->
+
+        <aside class="col-md-4 blog-sidebar">
+            <div class="p-4 mb-3 bg-light rounded">
+                <h4 class="font-italic">About</h4>
+                <p class="mb-0">Welcome to our e-commerce blog, where we share industry insights, tips and tricks,
+                    and exciting updates on all things shopping. Our goal is to provide our readers with valuable
+                    information and inspiration to make their shopping experience even better.<br><br>
+
+                    We have a team of experienced e-commerce professionals who bring their expertise to the table,
+                    and we cover a wide range of topics, from the latest trends in online shopping to tips on how to
+                    save money while shopping. Our blog is a hub of information and inspiration, and we strive to
+                    create content that is both informative and engaging.
+
+                </p>
+            </div>
+
+            <div class="p-4">
+                <h4 class="font-italic">Elsewhere</h4>
+                <ol class="list-unstyled">
+                    <li><a href="#">GitHub</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">Facebook</a></li>
+                </ol>
+            </div>
+        </aside><!-- /.blog-sidebar -->
+
+    </div><!-- /.row -->
+
+</main><!-- /.container -->
+{% endblock %}

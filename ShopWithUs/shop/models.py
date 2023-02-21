@@ -32,10 +32,11 @@ class Contact(models.Model):
 class Order(models.Model):
     order_id = models.AutoField(primary_key=True)
     item_json = models.CharField(max_length=70, default='')
+    amount = models.IntegerField(default=0)
     name = models.CharField(max_length=70, default='')
     email = models.CharField(max_length=100, default='')
     phone = models.CharField(max_length=70, default='')
-    address = models.CharField(max_length=20, default='')
+    address = models.CharField(max_length=200, default='')
     state = models.CharField(max_length=70, default='')
     city = models.CharField(max_length=70, default='')
     zip_code = models.CharField(max_length=70, default='')

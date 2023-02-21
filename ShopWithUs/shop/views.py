@@ -15,10 +15,6 @@ def index(request):
         n = len(prod)
         nSlides = n // 4 + ceil((n / 4) - (n // 4))
         allProds.append([prod, range(1, nSlides), nSlides])
-
-    # params = {'no_of_slides':nSlides, 'range': range(1,nSlides),'product': products}
-    # allProds = [[products, range(1, nSlides), nSlides],
-    #             [products, range(1, nSlides), nSlides]]
     params = {'allProds': allProds}
     return render(request, 'shop/index.html', params)
 
@@ -79,6 +75,7 @@ def product(request, myid):
 def checkout(request):
     if request.method == "POST":
         item_json = request.POST.get("itemJson", "")
+        amount = request.POST.get("amount", "")
         name = request.POST.get("name", "")
         email = request.POST.get("email", "")
         phone = request.POST.get("phone", "")
@@ -87,7 +84,7 @@ def checkout(request):
         city = request.POST.get("city", "")
         zip_code = request.POST.get("zip_code", "")
 
-        order = Order(item_json=item_json, name=name, email=email, phone=phone,
+        order = Order(item_json=item_json,amount=amount, name=name, email=email, phone=phone,
                       address=address, state=state, city=city, zip_code=zip_code)
         order.save()
         update = OrderUpdate(order_id=order.order_id,

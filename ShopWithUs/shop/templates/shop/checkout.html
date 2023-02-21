@@ -24,6 +24,7 @@
         <h2>Fill Your Address & Other Details</h2>
         <form method="post" action="/shop/checkout/"> {% csrf_token %}
             <input type="hidden" id="itemJson" name="itemJson">
+            <input type="hidden" id="amount" name="amount">
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="inputName">Name<span class="text-danger">*</span></label>
@@ -124,6 +125,7 @@
     document.location = "/shop";
     // Code here will be linted with JSHint
     {% endif %}
+    $('#amount').val($('#totalPrice').html())
 
 </script>
 

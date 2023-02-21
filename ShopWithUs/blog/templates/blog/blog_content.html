@@ -1,6 +1,6 @@
 {% extends 'blog/basic.html' %}
 
-{% block title %} Blogs {% endblock %}
+{% block title %} Blog Content {% endblock %}
 
 {% block css %}
 
@@ -44,10 +44,10 @@
                 <p class="blog-post-meta text-justify">{{post.chead2}}</p>
             </div>
 
-            <nav class="blog-pagination my-3">
-                <a class="btn btn-outline-primary" href="#">Older</a>
-                <a class="btn btn-outline-secondary disabled">Newer</a>
-            </nav>
+            <div class=" my-3">
+                <a class="btn btn-outline-primary older" id="older" href="{{post.post_id}}">Older</a>
+                <a class="btn btn-outline-secondary newer pull-left" id="newer" href="{{post.post_id}}">Newer</a>
+            </div>
 
         </div><!-- /.blog-main -->
 
@@ -79,4 +79,28 @@
     </div><!-- /.row -->
 
 </main><!-- /.container -->
+{% endblock %}
+
+{% block js %}
+<script>
+
+    $(".newer").click(function () {
+        const id = document.getElementById('newer').getAttribute('href');
+        post_id = parseInt(id);
+        document.getElementById('newer').setAttribute('href', post_id + 1);
+    });
+
+    $(".older").click(function () {
+        const id = document.getElementById('older').getAttribute('href');
+        post_id = parseInt(id);
+        if (post_id <= 1) {
+            document.getElementById('older').setAttribute('href', post_id);
+        }
+        else {
+            document.getElementById('older').setAttribute('href', post_id - 1);
+        }
+    });
+
+</script>
+
 {% endblock %}

@@ -27,19 +27,19 @@ def matchProd(query, item):
 
 
 def search(request):
-        query = request.GET.get('search')
-        allProds = []
-        catprods = Product.objects.values('category', 'id')
-        cats = {item['category'] for item in catprods}
-        for cat in cats:
-            prodTemp = Product.objects.filter(category=cat)
-            prod = [item for item in prodTemp if matchProd(query, item)]
-            n = len(prod)
-            nSlides = n // 4 + ceil((n / 4) - (n // 4))
-            if len(prod)  != 0:
-                allProds.append([prod, range(1, nSlides), nSlides])
-        params = {'allProds': allProds}
-        return render(request, 'shop/search.html', params)
+    query = request.GET.get('search')
+    allProds = []
+    catprods = Product.objects.values('category', 'id')
+    cats = {item['category'] for item in catprods}
+    for cat in cats:
+        prodTemp = Product.objects.filter(category=cat)
+        prod = [item for item in prodTemp if matchProd(query, item)]
+        n = len(prod)
+        nSlides = n // 4 + ceil((n / 4) - (n // 4))
+        if len(prod) != 0:
+            allProds.append([prod, range(1, nSlides), nSlides])
+    params = {'allProds': allProds}
+    return render(request, 'shop/search.html', params)
 
 
 def about(request):
@@ -74,14 +74,14 @@ def tracker(request):
                         {"text": item.update_desc, "time": item.timestamp})
                     # Getting update details from 'OrderUPdate; model and Order Details from 'Order' model
                     response = json.dumps(
-                        [updates, order[0].item_json], default=str)
+                        {"status":"success", "updates":updates, "itemjson": order[0].item_json}, default=str)
                 return HttpResponse(response)
 
             else:
-                return HttpResponse('{}')
+                return HttpResponse('{"status":"No Item with this Order Id"}')
 
         except Exception as e:
-            return HttpResponse('{}')
+            return HttpResponse('{"status":"error"}')
 
     return render(request, "shop/tracker.html")
 

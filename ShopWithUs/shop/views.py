@@ -19,6 +19,29 @@ def index(request):
     return render(request, 'shop/index.html', params)
 
 
+def matchProd(query, item):
+    if query in item.description.lower() or query in item.product_name.lower() or query in item.category.lower():
+        return True
+    else:
+        return False
+
+
+def search(request):
+        query = request.GET.get('search')
+        allProds = []
+        catprods = Product.objects.values('category', 'id')
+        cats = {item['category'] for item in catprods}
+        for cat in cats:
+            prodTemp = Product.objects.filter(category=cat)
+            prod = [item for item in prodTemp if matchProd(query, item)]
+            n = len(prod)
+            nSlides = n // 4 + ceil((n / 4) - (n // 4))
+            if len(prod)  != 0:
+                allProds.append([prod, range(1, nSlides), nSlides])
+        params = {'allProds': allProds}
+        return render(request, 'shop/search.html', params)
+
+
 def about(request):
     return render(request, "shop/about.html")
 
@@ -47,9 +70,11 @@ def tracker(request):
                 update = OrderUpdate.objects.filter(order_id=order_id)
                 updates = []
                 for item in update:
-                    updates.append({"text": item.update_desc, "time": item.timestamp})
+                    updates.append(
+                        {"text": item.update_desc, "time": item.timestamp})
                     # Getting update details from 'OrderUPdate; model and Order Details from 'Order' model
-                    response = json.dumps([updates, order[0].item_json], default=str)
+                    response = json.dumps(
+                        [updates, order[0].item_json], default=str)
                 return HttpResponse(response)
 
             else:
@@ -59,10 +84,6 @@ def tracker(request):
             return HttpResponse('{}')
 
     return render(request, "shop/tracker.html")
-
-
-def search(request):
-    return render(request, "shop/search.html")
 
 
 def product(request, myid):
@@ -79,12 +100,13 @@ def checkout(request):
         name = request.POST.get("name", "")
         email = request.POST.get("email", "")
         phone = request.POST.get("phone", "")
-        address = request.POST.get("address1", "") + request.POST.get("address2", "")
+        address = request.POST.get("address1", "") + \
+            request.POST.get("address2", "")
         state = request.POST.get("state", "")
         city = request.POST.get("city", "")
         zip_code = request.POST.get("zip_code", "")
 
-        order = Order(item_json=item_json,amount=amount, name=name, email=email, phone=phone,
+        order = Order(item_json=item_json, amount=amount, name=name, email=email, phone=phone,
                       address=address, state=state, city=city, zip_code=zip_code)
         order.save()
         update = OrderUpdate(order_id=order.order_id,
